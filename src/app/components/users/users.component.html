@@ -1,0 +1,100 @@
+<div class="box">
+  <button class="loadButton" (click)="loadFunction()">{{ displayText }}</button>
+
+  <div class="card" *ngIf="showTable">
+    <div class="container">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Sr No.</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Phone No.</th>
+            <th>Address</th>
+            <th>Created On</th>
+            <th>Modified On</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="users.length && !loading">
+          <tr *ngFor="let user of users; let i = index">
+            <td>{{ i + 1 }}</td>
+
+            <td>
+              <div *ngIf="indexArray[i]; else nameEditMode">
+                {{ user.first_name }}
+              </div>
+              <ng-template #nameEditMode>
+                <input type="text" name="firstName" [(ngModel)]="user.first_name" />
+              </ng-template>
+            </td>
+
+            <td>
+              <div *ngIf="indexArray[i]; else lEditMode">{{ user.last_name }}</div>
+              <ng-template #lEditMode>
+                <input type="text" name="lastName" [(ngModel)]="user.last_name" />
+              </ng-template>
+            </td>
+
+            <td>
+              <div *ngIf="indexArray[i]; else emailEditMode">
+                {{ user.email }}
+              </div>
+              <ng-template #emailEditMode>
+                <input type="text" name="email" [(ngModel)]="user.email" />
+              </ng-template>
+            </td>
+
+            <td>
+              <div *ngIf="indexArray[i]; else roleEditMode">{{ user.role }}</div>
+              <ng-template #roleEditMode>
+                <input type="text" name="role" [(ngModel)]="user.role" />
+              </ng-template>
+            </td>
+
+            <td>
+              <div *ngIf="indexArray[i]; else phoneEditMode">
+                {{ user.phone_number }}
+              </div>
+              <ng-template #phoneEditMode>
+                <input type="text" name="phone" [(ngModel)]="user.phone_number" />
+              </ng-template>
+            </td>
+
+            <td>
+              <div *ngIf="indexArray[i]; else addressEditMode">
+                {{ user.address }}
+              </div>
+              <ng-template #addressEditMode>
+                <input type="text" name="address" [(ngModel)]="user.address" />
+              </ng-template>
+            </td>
+
+            <td>{{ user.created_on | date: "short" }}</td>
+
+            <td>{{ user.modified_on | date: "short" }}</td>
+
+            <td>
+              <div *ngIf="indexArray[i]; else actionsEditMode">
+                <button class="leftButton" (click)="editUsers(i)">Edit</button>
+                <button class="rightButton" (click)="deleteUser(i)">Delete</button>
+              </div>
+              <ng-template #actionsEditMode>
+                <button class="leftButton" (click)="saveUsers(i)">Save</button>
+                <button class="rightButton" (click)="cancelUsers(i)">Cancel</button>
+              </ng-template>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="!users.length && loading" style="text-align: center;">
+          <td colspan="10">Loading Users...</td>
+        </tbody>
+        <tbody *ngIf="!users.length && !loading">
+          <td colspan="10">No Users Found</td>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
